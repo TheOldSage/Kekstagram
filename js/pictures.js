@@ -156,3 +156,78 @@ var renderBigPicture = function(index) {
         }
     });
 
+    // var pin = slider.querySelector('.effect-level__pin');
+    // var depth = document.querySelector('.effect-level__depth');
+
+    // pin.addEventListener('mousedown', function(evt){
+    //     evt.preventDefault();
+    
+
+    //     var startCoords = {
+    //         x: evt.ClientX,
+    //     };
+
+    //     var onMouseMove = function(moveEvt) {
+    //         moveEvt.preventDefault();
+
+    //         var shift = {
+    //             x: startCoords.x - moveEvt.ClientX
+    //         };
+
+    //         startCoords = {
+    //             x: moveEvt.ClientX
+    //         };
+    //         pin.style.left = (pin.offsetleft - shift.x) + 'px';
+
+    //     }
+
+    //     var onMouseUp = function(upEvt){
+    //         upEvt.preventDefault();
+    //         document.removeEventListener('mousemove', onMouseMove);
+    //         document.removeEventListener('mouseup', onMouseUp);
+    //     }
+
+    //     document.addEventListener
+    //     ('mousemove', onMouseMove);
+    //     document.addEventListener
+    //     ('mouseup', onMouseUp);
+    // })
+
+    let thumb = slider.querySelector('.effect-level__pin');
+    let line = slider.querySelector('.effect-level__depth')
+
+    thumb.onmousedown = function(event) {
+      event.preventDefault(); // предотвратить запуск выделения (действие браузера)
+
+      let shiftX = event.clientX - thumb.getBoundingClientRect().left;
+      // shiftY здесь не нужен, слайдер двигается только по горизонтали
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+
+      function onMouseMove(event) {
+        let newLeft = event.clientX - shiftX - slider.getBoundingClientRect().left;
+
+        // курсор вышел из слайдера => оставить бегунок в его границах.
+        if (newLeft < 0) {
+          newLeft = 0;
+        }
+        let rightEdge = slider.offsetWidth - thumb.offsetWidth;
+        if (newLeft > rightEdge) {
+          newLeft = rightEdge;
+        }
+        thumb.style.left = newLeft + 'px';
+        line.style.width = newLeft/4.5 + '%'
+
+      }
+
+      function onMouseUp() {
+        document.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('mousemove', onMouseMove);
+      }
+
+    };
+
+    thumb.ondragstart = function() {
+      return false;
+    };
