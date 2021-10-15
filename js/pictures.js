@@ -101,11 +101,13 @@ var renderBigPicture = function(index) {
 
 
     
-    var hashtag = document.querySelector('.img-upload__overlay');
-    hashtag.classList.remove('hidden')
+    var imgUpload = document.querySelector('.img-upload__overlay');
+    imgUpload.classList.remove('hidden')
     var hashtagClose = document.querySelector(".img-upload__cancel");
     hashtagClose.addEventListener('click', function(){
-        hashtag.classList.add("hidden");
+        console.log(imgUpload)
+        imgUpload.classList.add("hidden");
+        
     });
     var hashtagInput = document.querySelector('.text__hashtags')
     var hashtagNames = '#cool, #beatiful, #huge, #cute, #funny';
@@ -136,10 +138,21 @@ var renderBigPicture = function(index) {
         console.log(some);
     });
 
-    let pole = document.querySelector('.scale__control_value')
+    let field = document.querySelector('.scale__control_value')
     let minus = document.querySelector('.scale__control_smaller');
     let plus = document.querySelector('.scale__control_bigger');
-    plus.addEventListener('click', function(){
-        if(parseInt(pole.value) < 100)pole.value = parseInt(pole.value)+25 +'%';
+    let imgPreview = document.querySelector('.img-upload__preview');
+    plus.addEventListener('click', function() {
+        if(parseInt(field.value) < 100){
+            field.value = parseInt(field.value) + 25 +'%';
+            imgPreview.style.transform = `scale(${parseInt(field.value)/100})`
+        }
+        
 })
-minus.addEventListener("click", function(){if(parseInt(pole.value) > 25)pole.value = parseInt(pole.value) -+ 25 + '%';});
+    minus.addEventListener("click", function() { 
+        if(parseInt(field.value) > 25){
+            field.value = parseInt(field.value) - 25 + '%';
+            imgPreview.style.transform = `scale(${parseInt(field.value)/100})`
+        }
+    });
+
