@@ -135,4 +135,11 @@ var renderBigPicture = function(index) {
         } else  hashtagInput.setCustomValidity('');
         console.log(some);
     });
-    
+
+    let pole = document.querySelector('.scale__control_value')
+    let minus = document.querySelector('.scale__control_smaller');
+    let plus = document.querySelector('.scale__control_bigger');
+    plus.addEventListener('click', function(){
+        if(parseInt(pole.value) < 100)pole.value = parseInt(pole.value)+25 +'%';
+})
+minus.addEventListener("click", function(){if(parseInt(pole.value) > 25)pole.value = parseInt(pole.value) -+ 25 + '%';});
