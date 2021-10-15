@@ -96,6 +96,11 @@ var renderBigPicture = function(index) {
     // Array.from(socialComments).forEach(function (comment, index) {
     //     socialComments.setAttribute("src", bigPictureInfo.avatarUrl);
     // }); 
+
+
+
+
+    
     var hashtag = document.querySelector('.img-upload__overlay');
     hashtag.classList.remove('hidden')
     var hashtagClose = document.querySelector(".img-upload__cancel");
@@ -104,16 +109,30 @@ var renderBigPicture = function(index) {
     });
     var hashtagInput = document.querySelector('.text__hashtags')
     var hashtagNames = '#cool, #beatiful, #huge, #cute, #funny';
+    var hashtag = 0;
     var massiveNames = hashtagNames.split(',  ', 5);
-    hashtagInput.addEventListener('invalid', function(){
-        if (hashtagInput.validity.tooShort) {
-            hashtagInput.setCustomValidity('Длиньше должно быть блять!');    
-        } else if (hashtagInput.validity.tooLong) {
-            hashtagInput.setCustomValidity('Короче должно быть блять!');    
-        } else if (hashtagInput.validity.valueMissing) {
-            hashtagInput.setCustomValidity('Тут должен быть хештэг блять!');    
+    // for( var i = 0; i < massiveNames.length; i++ )
+    // hashtagInput.addEventListener('invalid', function(){
+    //     if (hashtagInput.validity.tooShort) {
+    //         hashtagInput.setCustomValidity('Длиньше должно быть блять!');    
+    //     } else if (hashtagInput.validity.tooLong) {
+    //         hashtagInput.setCustomValidity('Короче должно быть блять!');    
+    //     } else if (hashtagInput.validity.valueMissing) {
+    //         hashtagInput.setCustomValidity('Тут должен быть хештэг блять!'); 
+    //     } else  if (hashtagInput.validity.patternMismatch){
+    //         hashtagInput.setCustomValidity('Вначале должен стоять #');    
+    //     } else  hashtagInput.setCustomValidity('');
+    //     console.log('Коротко',hashtagInput.validity.tooShort);
+    //     console.log('Длинно', hashtagInput.validity.tooLong);
+    //     console.log('нет нихуя',hashtagInput.validity.valueMissing);
+    // })
+
+    massiveNames.forEach((some) => {
+        if (!massiveNames.checkValidity) {
+            hashtagInput.setCustomValidity('Тут должен быть хештэг блять!'); 
+        } else  if (hashtagInput.validity.patternMismatch){
+        hashtagInput.setCustomValidity('Вначале должен стоять #'); 
         } else  hashtagInput.setCustomValidity('');
-        console.log('Коротко',hashtagInput.validity.tooShort);
-        console.log('Длинно', hashtagInput.validity.tooLong);
-        console.log('нет нихуя',hashtagInput.validity.valueMissing);
-    })
+        console.log(some);
+    });
+    
