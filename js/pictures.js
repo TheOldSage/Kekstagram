@@ -110,34 +110,20 @@ var renderBigPicture = function(index) {
         
     });
     var hashtagInput = document.querySelector('.text__hashtags')
-    var hashtagNames = '#cool, #beatiful, #huge, #cute, #funny';
+    hashtagInput.addEventListener('change', (evt) => {
+        evt.target.value
+        console.log(evt.target.value)
+        var massiveNames = evt.target.value.split(', ');
+        let isValidHashtag = massiveNames.every(item => item.startsWith('#'))
+        if(!isValidHashtag){
+            hashtagInput.setCustomValidity('Тут должен быть хештэг блять!');
+        }
+        else  {hashtagInput.setCustomValidity('');}
+        console.log(massiveNames)
+        console.log(isValidHashtag)
+    })
+        // TODO: Добавить проверку длины массива, максимув хештегов точно так же как хештег через every.
     var hashtag = 0;
-    var massiveNames = hashtagNames.split(',  ', 5);
-    // for( var i = 0; i < massiveNames.length; i++ )
-    // hashtagInput.addEventListener('invalid', function(){
-    //     if (hashtagInput.validity.tooShort) {
-    //         hashtagInput.setCustomValidity('Длиньше должно быть блять!');    
-    //     } else if (hashtagInput.validity.tooLong) {
-    //         hashtagInput.setCustomValidity('Короче должно быть блять!');    
-    //     } else if (hashtagInput.validity.valueMissing) {
-    //         hashtagInput.setCustomValidity('Тут должен быть хештэг блять!'); 
-    //     } else  if (hashtagInput.validity.patternMismatch){
-    //         hashtagInput.setCustomValidity('Вначале должен стоять #');    
-    //     } else  hashtagInput.setCustomValidity('');
-    //     console.log('Коротко',hashtagInput.validity.tooShort);
-    //     console.log('Длинно', hashtagInput.validity.tooLong);
-    //     console.log('нет нихуя',hashtagInput.validity.valueMissing);
-    // })
-
-    massiveNames.forEach((some) => {
-        if (!massiveNames.checkValidity) {
-            hashtagInput.setCustomValidity('Тут должен быть хештэг блять!'); 
-        } else  if (hashtagInput.validity.patternMismatch){
-        hashtagInput.setCustomValidity('Вначале должен стоять #'); 
-        } else  hashtagInput.setCustomValidity('');
-        console.log(some);
-    });
-
     let field = document.querySelector('.scale__control_value')
     let minus = document.querySelector('.scale__control_smaller');
     let plus = document.querySelector('.scale__control_bigger');
@@ -231,3 +217,6 @@ var renderBigPicture = function(index) {
     thumb.ondragstart = function() {
       return false;
     };
+
+
+
