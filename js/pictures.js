@@ -114,13 +114,17 @@ var renderBigPicture = function(index) {
         evt.target.value
         console.log(evt.target.value)
         var massiveNames = evt.target.value.split(', ');
+        let isTooLong = massiveNames.every(item => item.length < 20)
         let isValidHashtag = massiveNames.every(item => item.startsWith('#'))
+        let isTooShort = massiveNames.every(item => item.length > 5)
         if(!isValidHashtag){
             hashtagInput.setCustomValidity('Тут должен быть хештэг блять!');
         }
+        else if(!isTooLong){  hashtagInput.setCustomValidity('Длина не должна превашать 20-ти символов');
+        }
+        else if(!isTooShort){  hashtagInput.setCustomValidity('Длина не должна быть меньше 5-ти символов');
+        }
         else  {hashtagInput.setCustomValidity('');}
-        console.log(massiveNames)
-        console.log(isValidHashtag)
     })
         // TODO: Добавить проверку длины массива, максимув хештегов точно так же как хештег через every.
     var hashtag = 0;
