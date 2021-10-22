@@ -111,8 +111,6 @@ var renderBigPicture = function(index) {
     });
     var hashtagInput = document.querySelector('.text__hashtags')
     hashtagInput.addEventListener('change', (evt) => {
-        evt.target.value
-        console.log(evt.target.value)
         var massiveNames = evt.target.value.split(', ');
         let isTooLong = massiveNames.every(item => item.length < 20)
         let isValidHashtag = massiveNames.every(item => item.startsWith('#'))
@@ -196,19 +194,33 @@ var renderBigPicture = function(index) {
       document.addEventListener('mouseup', onMouseUp);
 
       function onMouseMove(event) {
-        let newLeft = event.clientX - shiftX - slider.getBoundingClientRect().left;
+        const sliderCoords =  slider.getBoundingClientRect();
+        let newLeft = event.clientX - shiftX - sliderCoords.left;
 
         // курсор вышел из слайдера => оставить бегунок в его границах.
         if (newLeft < 0) {
           newLeft = 0;
         }
-        let rightEdge = slider.offsetWidth - thumb.offsetWidth;
-        if (newLeft > rightEdge) {
-          newLeft = rightEdge;
+        if (newLeft > sliderCoords.width) {
+          newLeft = sliderCoords.width;
         }
         thumb.style.left = newLeft + 'px';
-        line.style.width = newLeft/4.5 + '%'
-
+        line.style.width = newLeft/sliderCoords.width * 100 + '%'
+        if (imgPreview.classList.contains('effects__preview--chrome')){
+            imgPreview.style.filter = `grayscale(${newLeft/sliderCoords.width})`
+        }
+        if (imgPreview.classList.contains('effects__preview--sepia')){
+            imgPreview.style.filter = `sepia(${newLeft/sliderCoords.width})`
+        }
+        if (imgPreview.classList.contains('effects__preview--marvin')){
+            imgPreview.style.filter = `invert(${newLeft/sliderCoords.width * 100 + '%'})`
+        }
+        if (imgPreview.classList.contains('effects__preview--phobos')){
+            imgPreview.style.filter = `blur(${newLeft/sliderCoords.width * 3 + 'px'})`
+        }
+        if (imgPreview.classList.contains('effects__preview--heat')){
+            imgPreview.style.filter = `brightness(${(newLeft/sliderCoords.width)* 2 +1})`
+        }
       }
 
       function onMouseUp() {
@@ -221,6 +233,48 @@ var renderBigPicture = function(index) {
     thumb.ondragstart = function() {
       return false;
     };
+
+
+
+    const radioButtons = document.querySelectorAll('.effects__radio')
+    const sliderContainer = document.querySelector('.img-upload__effect-level')
+
+    radioButtons.forEach(radio => {
+        console.log(radio);
+        radio.addEventListener('change', (evt) => {
+            console.log(evt.target.value)
+            sliderContainer.classList.remove('visually-hidden');
+            switch(evt.target.value){
+                case 'chrome':
+                    imgPreview.className = 'effects__preview--chrome img-upload__preview';
+                    imgPreview.style.filter = 'grayscale(1)'
+                    break;
+                case 'sepia':
+                    imgPreview.className = 'effects__preview--sepia img-upload__preview';
+                    imgPreview.style.filter = 'sepia(1)'
+                    break;
+                case 'none':
+                    imgPreview.className = 'img-upload__preview';
+                    imgPreview.style.filter = ''
+                    sliderContainer.classList.add('visually-hidden');
+                    break;
+                case 'heat':
+                    imgPreview.className = 'effects__preview--heat img-upload__preview';
+                    imgPreview.style.filter = 'brightness(3)'
+                    break;
+                case 'phobos':
+                    imgPreview.className = 'effects__preview--phobos img-upload__preview'
+                    imgPreview.style.filter = 'blur(3)'
+                    break;
+                case 'marvin':
+                    imgPreview.className = 'effects__preview--marvin img-upload__preview'
+                    imgPreview.style.filter = 'invert(100%)'
+                    break;
+            }
+             thumb.style.left = '100%'
+             line.style.width = '100%'
+        })
+    })
 
 
 
